@@ -63,3 +63,34 @@ function! lib#toggleLeftColumns()
   endif
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
+"""""""""""""""""""""""""" dotfiles and gitgutter """""""""""""""""""""""""" {{{
+let s:df_git = "git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
+" Cache answer per buffer. Figure this out by listing all the dotfiles and
+" checking if the current filname is in it.
+function! lib#in_dotfiles()
+  if exists('b:in_dotfiles')
+    return b:in_dotfiles
+  endif
+
+  " Get the current file's name relative to `~`, but without the leading `~/`.
+  "
+  " This is the desired format because `git ls-tree --name-only` does this and
+  " I just wanna match what they do so I can grep later.
+  "
+  " See `:help %:~`. And then I chained it with `:s|<pat>|<sub>|`. Regex looks
+  " really confusing when magic characters need to be treated as literals, but
+  " there's nothing more expressive.
+  let filename = expand('%:~:s|\~/||')
+
+  " See if this file's name is in the dotfiles git tree
+  call system(s:df_git . " ls-tree --full-tree -r --name-only HEAD | grep ^" . l:filename)
+
+  " If grep found a match, then it will return 0. So we set 'in dotfiles' to 1.
+  let b:in_dotfiles = (! v:shell_error)
+
+  return lib#in_dotfiles()
+endfunction
+function! lib#update_gitgutter_dotfile() abort " {{{
+  let g:gitgutter_git_executable = lib#in_dotfiles() ? s:df_git : "git"
+endfunction " }}}
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
