@@ -94,3 +94,18 @@ function! lib#update_gitgutter_dotfile() abort " {{{
   let g:gitgutter_git_executable = lib#in_dotfiles() ? s:df_git : "git"
 endfunction " }}}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
+"""""""""""""""""""""""" For copy/pasting from PDFs """""""""""""""""""""""" {{{
+" Change curly quotes into regular quotes and stuff
+command! FixPastedPDF keeppatterns call lib#fixPastedPDF()
+
+" For copy/pasting that BS.
+function! lib#fixPastedPDF()
+  %substitute/â/-/e
+  %substitute/â/'/e
+  %substitute/â/"/e
+  %substitute/â/"/e
+  %substitute/â¦/.../e
+  %substitute/â¢/*/e
+  %substitute/ï /->/e
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
