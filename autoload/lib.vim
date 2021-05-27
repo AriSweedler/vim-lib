@@ -50,16 +50,16 @@ function! lib#toggleLeftColumns()
     " Turn all the gutter info OFF
     let g:lib#showLeftColumns = 0
     GitGutterDisable
-    set nonumber
-    set signcolumn=no
-    set foldcolumn=0
+    setlocal nonumber
+    setlocal signcolumn=no
+    setlocal foldcolumn=0
   else
     " Turn all the gutter info ON
     let g:lib#showLeftColumns = 1
     GitGutterEnable
-    set number
-    set signcolumn=yes
-    set foldcolumn=2
+    setlocal number
+    setlocal signcolumn=yes
+    setlocal foldcolumn=2
   endif
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
