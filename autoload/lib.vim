@@ -107,6 +107,7 @@ function! lib#fixPastedPDF()
   %substitute/â¦/.../e
   %substitute/â¢/*/e
   %substitute/ï /->/e
+  %substitute/’/'/e
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
 """"""""""""""""""""""""""" break undo sequences """"""""""""""""""""""""""" {{{
