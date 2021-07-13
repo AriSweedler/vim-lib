@@ -115,3 +115,21 @@ function! lib#break_undo()
   execute "normal a\<C-g>u"
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
+""""""""""""""""""""""""""""""" Make a fold """""""""""""""""""""""""""""" {{{
+function! lib#new_fold()
+  if &foldmethod != "marker"
+    echom "Foldmethod not set to marker"
+    return
+  endif
+
+  if !exists("&foldmarker")
+    echom "Foldmarker not set"
+    return
+  endif
+
+  let my_foldmarkers = split(&foldmarker, ",")
+  put =l:my_foldmarkers[0]
+  put =l:my_foldmarkers[1]
+endfunction
+nnoremap <Leader>f :call lib#new_fold()<CR>zxkA<Space>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" }}}
